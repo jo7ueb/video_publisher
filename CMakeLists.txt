@@ -9,7 +9,7 @@ project(video_publisher)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  std_msgc
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES video_publisher
-#  CATKIN_DEPENDS roscpp std_msgc
+#  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
 
