@@ -4,6 +4,7 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
+#include <boost/program_options.hpp>
 
 #define QD 10
 
@@ -11,6 +12,21 @@ int main(int argc, char **argv)
 {
     std::string topic_name = "/camera/image_raw";
     std::string file_name  = "0016E5.MXF";
+    double speed = 1.0;
+
+    // parse command line
+    namespace po = boost::program_options;
+    po::options_description opt("option");
+    opt.add_options()
+        ("help,h", "display help")
+        ("topic,t", po::value<std::string>(&topic_name), "output topic name")
+        ("input,i", po::value<std::string>(&file_name), "input video file path");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, opt), vm);
+    po::notify(vm);
+    std::cout << "Topic name: " << topic_name << std::endl;
+    std::cout << "Video path: " << file_name << std::endl;
 
     // ROS settings
     ros::init(argc, argv, "publisher");
