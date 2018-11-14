@@ -26,6 +26,12 @@ int main(int argc, char **argv)
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, opt), vm);
     po::notify(vm);
+
+    if(vm.count("help")) {
+        std::cout << opt << std::endl;
+        return 0;
+    }
+
     std::cout << "Topic name: " << topic_name << std::endl;
     std::cout << "Video path: " << file_name << std::endl;
     std::cout << "Playback speed: " << speed << std::endl;
