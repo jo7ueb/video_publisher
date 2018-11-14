@@ -20,7 +20,8 @@ int main(int argc, char **argv)
     opt.add_options()
         ("help,h", "display help")
         ("topic,t", po::value<std::string>(&topic_name), "output topic name")
-        ("input,i", po::value<std::string>(&file_name), "input video file path");
+        ("input,i", po::value<std::string>(&file_name), "input video file path")
+        ("speed,s", po::value<double>(&speed), "playback speed");
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, opt), vm);
@@ -48,7 +49,7 @@ int main(int argc, char **argv)
               << " " << fps << "FPS) opened." << std::endl;
 
     // publish each video frame
-    ros::Rate rate(fps);
+    ros::Rate rate(fps * speed);
     size_t frameIdx = 0;
     while(ros::ok()) {
         cv::Mat frame;
