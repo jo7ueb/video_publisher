@@ -24,8 +24,14 @@ int main(int argc, char **argv)
         ("speed,s", po::value<double>(&speed), "playback speed");
 
     po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, opt), vm);
-    po::notify(vm);
+    try {
+        po::store(po::parse_command_line(argc, argv, opt), vm);
+        po::notify(vm);
+    }
+    catch(boost::program_options::error& e) {
+        std::cerr << "Command error: " << e.what() << std::endl;
+        return -1;
+    }
 
     if(vm.count("help")) {
         std::cout << opt << std::endl;
