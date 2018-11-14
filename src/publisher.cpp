@@ -55,7 +55,7 @@ int main(int argc, char **argv)
         cap >> frame;
 
         const double ratio = frameIdx / length;
-        std::cout << "frame#" << frameIdx++ << " (" << ratio*100 << "%)\r";
+        std::cout << "frame#" << frameIdx++ << " (" << ratio*100 << "%)\r" << std::flush;
 
         if (frame.empty()) {
             std::cout << "reach to the end" << std::endl;
