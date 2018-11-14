@@ -28,6 +28,7 @@ int main(int argc, char **argv)
     po::notify(vm);
     std::cout << "Topic name: " << topic_name << std::endl;
     std::cout << "Video path: " << file_name << std::endl;
+    std::cout << "Playback speed: " << speed << std::endl;
 
     // ROS settings
     ros::init(argc, argv, "publisher");
