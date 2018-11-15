@@ -12,6 +12,8 @@ int main(int argc, char **argv)
 {
     std::string topic_name = "/camera/image_raw";
     std::string file_name  = "0016E5.MXF";
+    bool from_video = false;
+    int video = 0;
     double speed = 1.0;
 
     // parse command line
@@ -21,6 +23,7 @@ int main(int argc, char **argv)
         ("help,h", "display help")
         ("topic,t", po::value<std::string>(&topic_name), "output topic name")
         ("input,i", po::value<std::string>(&file_name), "input video file path")
+        ("video,v", po::value<int>(&video), "video device id")
         ("speed,s", po::value<double>(&speed), "playback speed");
 
     po::variables_map vm;
@@ -37,9 +40,16 @@ int main(int argc, char **argv)
         std::cout << opt << std::endl;
         return 0;
     }
+    if(vm.count("video")) {
+        from_video = true;
+    }
 
     std::cout << "Topic name: " << topic_name << std::endl;
-    std::cout << "Video path: " << file_name << std::endl;
+    if(from_video) {
+        std::cout << "Capture device: " << video << std::endl;
+    } else {
+        std::cout << "Video path: " << file_name << std::endl;
+    }
     std::cout << "Playback speed: " << speed << std::endl;
 
     // ROS settings
@@ -49,7 +59,12 @@ int main(int argc, char **argv)
     image_transport::Publisher pub = it.advertise(topic_name, QD);
 
     // open video file
-    cv::VideoCapture cap(file_name);
+    cv::VideoCapture cap;
+    if(from_video) {
+        cap.open(video);
+    } else {
+        cap.open(file_name);
+    }
     if(!cap.isOpened()) {
         std::cerr << "Failed to open " << file_name << std::endl;
         return -1;
